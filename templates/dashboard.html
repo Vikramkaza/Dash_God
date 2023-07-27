@@ -1,0 +1,89 @@
+<!-- dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Dashboard</h1>
+    <p>Welcome, {{ current_user.id }}!</p>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+
+    <!-- Add a form to update webcam information -->
+    <form id="update-form">
+        <label for="name">Webcam Name:</label>
+        <input type="text" name="name" id="name" required>
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" required>
+        <label for="time">Time:</label>
+        <input type="time" name="time" id="time" required>
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location" required>
+        <button type="submit" class="btn btn-primary">Update Webcam Info</button>
+    </form>
+</div>
+
+<div id="data-table-container">
+    <h2>Data Table</h2>
+    <table id="data-table" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Webcam Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will be added dynamically here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Function to fetch data from Flask route and populate the table
+    function populateTable() {
+        fetch('/get_data')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+
+                data.forEach(dataRow => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${dataRow.name}</td>
+                        <td>${dataRow.date}</td>
+                        <td>${dataRow.time}</td>
+                        <td>${dataRow.location}</td>
+                    `;
+                    tableBody.appendChild(newRow);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Function to handle form submission and update webcam information
+    document.getElementById('update-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+
+        // Send a request to the Flask route using AJAX
+        fetch('/update_webcam_info', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(formData)
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+            populateTable(); // Update the table with the latest data after form submission
+        })
+        .catch(error => console.error('Error updating webcam information:', error));
+    });
+
+    // Automatically update the table every 3 seconds
+    setInterval(populateTable, 3000); // 3000 milliseconds = 3 seconds
+</script>
+{% endblock %}

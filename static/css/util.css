@@ -1,0 +1,51 @@
+/* util.css */
+
+/* Center content horizontally and vertically */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Text center alignment */
+.text-center {
+    text-align: center;
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Form input field styles */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Error message style */
+.error-msg {
+    color: red;
+    font-size: 14px;
+}
+
+/* Success message style */
+.success-msg {
+    color: green;
+    font-size: 14px;
+}
