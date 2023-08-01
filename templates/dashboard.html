@@ -2,6 +2,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Dashboard HTML content -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
+
 <div class="container">
     <h1>Dashboard</h1>
     <p>Welcome, {{ current_user.id }}!</p>

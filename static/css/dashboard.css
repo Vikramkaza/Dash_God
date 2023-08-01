@@ -1,40 +1,105 @@
 /* dashboard.css */
 
-/* Main dashboard container */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+    text-align: center;
+    margin: 0;
+}
+
 .container {
-    margin-top: 20px;
+    position: relative; /* Set the container as a reference for absolute positioning */
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Heading style */
 h1 {
-    font-size: 24px;
+    margin-bottom: 30px;
+    color: maroon;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group {
+    flex-basis: 48%;
+    margin-bottom: 20px;
+}
+
+label {
     font-weight: bold;
+    color: #830a0a;
 }
 
-/* Welcome message style */
-p {
-    font-size: 18px;
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
 }
 
-/* Logout button style */
-.btn-logout {
-    margin-top: 10px;
+.form-control:focus {
+    outline: none;
+    border-color: maroon;
+    box-shadow: 0 0 5px rgba(128, 0, 0, 0.5);
 }
 
-/* Sample table style */
-.table {
-    margin-top: 20px;
+.btn-primary {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #560a0a;
+    color: #ffffff;
     width: 100%;
 }
 
-.table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    padding: 10px;
-    text-align: center;
+.btn-primary:hover {
+    background-color: #fc9f7b;
 }
 
-.table td {
-    padding: 10px;
+.btn-primary:focus {
+    outline: none;
+}
+
+.btn-primary:active {
+    background-color: #600000;
+}
+
+/* Position the logout button */
+.btn-danger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(88, 4, 4);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#data-table-container {
+    margin-top: 20px;
+}
+
+#data-table {
+    width: 100%;
+}
+
+#data-table th,
+#data-table td {
+    padding: 8px;
     text-align: center;
 }

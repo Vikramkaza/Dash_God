@@ -2,6 +2,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Signup HTML content -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/signup.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
 <div class="container">
     <h1>Sign Up</h1>
     <form method="POST" action="{{ url_for('signup') }}">

@@ -40,9 +40,9 @@ label {
 .form-control {
     width: 100%;
     padding: 10px;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    font-size: 16px;
 }
 
 .form-control:focus {
@@ -52,20 +52,17 @@ label {
 }
 
 .btn-primary {
-    display: inline-block;
-    padding: 8px 16px;
+    background-color: maroon;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 3px;
+    padding: 12px 20px;
     cursor: pointer;
-    font-size: 16px;
-    text-decoration: none;
-    background-color: #610505;
-    color: #ffffff;
     width: 100%;
 }
 
 .btn-primary:hover {
-    background-color: #eb8383;
+    background-color: #800000; /* Darker shade of maroon */
 }
 
 .btn-primary:focus {
@@ -75,4 +72,3 @@ label {
 .btn-primary:active {
     background-color: #600000; /* Even darker shade of maroon on click */
 }
-
