@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* login.css */
 
 body {
@@ -52,6 +53,24 @@ label {
 }
 
 .btn-primary {
+=======
+/* util.css */
+
+/* Center content horizontally and vertically */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Text center alignment */
+.text-center {
+    text-align: center;
+}
+
+/* Button styles */
+.btn {
+>>>>>>> b5fd9f6 (form)
     display: inline-block;
     padding: 8px 16px;
     border: none;
@@ -59,6 +78,7 @@ label {
     cursor: pointer;
     font-size: 16px;
     text-decoration: none;
+<<<<<<< HEAD
     background-color: #610505;
     color: #ffffff;
     width: 100%;
@@ -76,3 +96,33 @@ label {
     background-color: #600000; /* Even darker shade of maroon on click */
 }
 
+=======
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Form input field styles */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Error message style */
+.error-msg {
+    color: red;
+    font-size: 14px;
+}
+
+/* Success message style */
+.success-msg {
+    color: green;
+    font-size: 14px;
+}
+>>>>>>> b5fd9f6 (form)
