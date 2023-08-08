@@ -65,6 +65,10 @@ def signup():
 # Assuming you have a data structure to store the webcam information
 webcams = [
 ]
+@app.route('/analytics', methods=['GET', 'POST'])
+@login_required
+def analytics():
+    return render_template('analytics.html', webcams=webcams)
 
 @app.route('/update_webcam_info', methods=['GET'])
 def update_webcam_info():
@@ -73,6 +77,8 @@ def update_webcam_info():
     date = request.args.get('date')
     time = request.args.get('time')
     location = request.args.get('location')
+    vulnerability = request.args.get('vulnerability')
+
 
     # Update the webcam information or create a new entry if it doesn't exist
     # for webcam in webcams:
@@ -82,7 +88,7 @@ def update_webcam_info():
     #         webcam['location'] = location
     #         break
     # else:
-    webcams.append({"name": name, "date": date, "time": time, "location": location})
+    webcams.append({"name": name, "date": date, "time": time, "location": location, "vulnerability":vulnerability})
 
     return 'Webcam information updated successfully.'
 
@@ -102,8 +108,4 @@ def get_data():
     return json.dumps(webcams)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    app.run(host='0.0.0.0', port=5000, debug=True)
-=======
     app.run(host='0.0.0.0', port=5001, debug=True)
->>>>>>> b5fd9f6 (form)

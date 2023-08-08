@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* login.css */
 
 body {
@@ -17,8 +16,9 @@ body {
 
 .container {
     width: 100%;
+
     max-width: 500px;
-    padding: 50px; /* Increase the padding to increase the height */
+    padding: 30px; /* Increase the padding to increase the height */
     background-color: #f9f9f9;
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -52,10 +52,9 @@ label {
     box-shadow: 0 0 5px rgba(128, 0, 0, 0.5);
 }
 
-.btn-primary {
-=======
+.btn btn-primary {
 /* util.css */
-
+ color: maroon;
 /* Center content horizontally and vertically */
 .center-content {
     display: flex;
@@ -70,7 +69,6 @@ label {
 
 /* Button styles */
 .btn {
->>>>>>> b5fd9f6 (form)
     display: inline-block;
     padding: 8px 16px;
     border: none;
@@ -78,7 +76,6 @@ label {
     cursor: pointer;
     font-size: 16px;
     text-decoration: none;
-<<<<<<< HEAD
     background-color: #610505;
     color: #ffffff;
     width: 100%;
@@ -88,6 +85,7 @@ label {
     background-color: #eb8383;
 }
 
+
 .btn-primary:focus {
     outline: none;
 }
@@ -96,13 +94,12 @@ label {
     background-color: #600000; /* Even darker shade of maroon on click */
 }
 
-=======
     background-color: #007bff;
     color: #ffffff;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: rgb(197, 90, 90);
 }
 
 /* Form input field styles */
@@ -125,4 +122,3 @@ label {
     color: green;
     font-size: 14px;
 }
->>>>>>> b5fd9f6 (form)

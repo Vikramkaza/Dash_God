@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Vulnerability Graph</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@1.58.4"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="dashboard-heading">Webcam Vulnerability Graph</h2>
+        <div class="form-group">
+            <label for="locationDropdown" class="dashboard-label">Select Location:</label>
+            <select class="form-control" id="locationDropdown">
+                <!-- Options will be dynamically added using JavaScript -->
+            </select>
+        </div>
+        <div id="graphDiv" class="graph-container">
+            <!-- Graph will be dynamically generated using JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Get the dropdown element
+        const locationDropdown = document.getElementById('locationDropdown');
+
+        // Get the graph container element
+        const graphDiv = document.getElementById('graphDiv');
+
+        // Create an empty dictionary to store traces for each location
+        const traces = {};
+
+        // Load data from the server and populate the dropdown
+        fetch('/get_data')
+            .then(response => response.json())
+            .then(data => {
+                const locations = [...new Set(data.map(item => item.location))];
+                locations.forEach(location => {
+                    const option = document.createElement('option');
+                    option.value = location;
+                    option.textContent = location;
+                    locationDropdown.appendChild(option);
+                    traces[location] = [];
+                });
+
+                // Attach an event listener to the dropdown
+                locationDropdown.addEventListener('change', () => {
+                    const selectedLocation = locationDropdown.value;
+                    updateGraph(selectedLocation);
+                });
+
+                // Initial graph update with the first location's data
+                updateGraph(locations[0]);
+            });
+
+        // Function to update the graph based on selected location
+        function updateGraph(location) {
+            // Get data for the selected location
+            fetch('/get_data')
+                .then(response => response.json())
+                .then(data => {
+                    const filteredData = data.filter(item => item.location === location);
+
+                    // Create a new trace for the selected location
+                    const newTrace = {
+                        x: filteredData.map(item => item.time),
+                        y: filteredData.map(item => item.vulnerability),
+                        type: 'bar',
+                        marker: {
+                            color: filteredData.map(item => item.vulnerability > 50 ? 'red' : 'green')
+                        }
+                    };
+
+                    // Replace the existing trace for the location with the new trace
+                    traces[location] = [newTrace];
+
+                    const layout = {
+                        title: `Vulnerability Graph for ${location}`,
+                        xaxis: {
+                            title: 'Time'
+                        },
+                        yaxis: {
+                            title: 'Vulnerability'
+                        }
+                    };
+
+                    Plotly.newPlot(graphDiv, traces[location], layout);
+                });
+        }
+    </script>
+</body>
+</html>

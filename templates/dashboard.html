@@ -2,14 +2,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<<<<<<< HEAD
 <!-- Dashboard HTML content -->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 
 
-=======
->>>>>>> b5fd9f6 (form)
 <div class="container">
     <h1>Dashboard</h1>
     <p>Welcome, {{ current_user.id }}!</p>
@@ -38,6 +35,7 @@
                 <th>Date</th>
                 <th>Time</th>
                 <th>Location</th>
+                <th>Vulnerability</th>
             </tr>
         </thead>
         <tbody>
@@ -62,6 +60,7 @@
                         <td>${dataRow.date}</td>
                         <td>${dataRow.time}</td>
                         <td>${dataRow.location}</td>
+                        <td>${dataRow.vulnerability}</td>
                     `;
                     tableBody.appendChild(newRow);
                 });
