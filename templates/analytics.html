@@ -3,36 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webcam Vulnerability Graph</title>
+    <title>Webcam Vulnerability and Detected Data Graphs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@1.58.4"></script>
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="dashboard-heading">Webcam Vulnerability Graph</h2>
+        <h2 class="dashboard-heading">Webcam Vulnerability and Detected Data Graphs</h2>
         <div class="form-group">
             <label for="locationDropdown" class="dashboard-label">Select Location:</label>
             <select class="form-control" id="locationDropdown">
                 <!-- Options will be dynamically added using JavaScript -->
             </select>
         </div>
-        <div id="graphDiv" class="graph-container">
-            <!-- Graph will be dynamically generated using JavaScript -->
+        <div class="alert-container" id="alertContainer" style="display: none;">
+            <div class="alert alert-danger" id="vulnerabilityAlert"></div>
+        </div>
+        <div id="vulnerabilityGraphDiv" class="graph-container">
+            <!-- Vulnerability Graph will be dynamically generated using JavaScript -->
+        </div>
+        <div id="detectedDataGraphDiv" class="graph-container">
+            <!-- Detected Data Graph will be dynamically generated using JavaScript -->
         </div>
     </div>
 
     <script>
-        // Get the dropdown element
         const locationDropdown = document.getElementById('locationDropdown');
+        const vulnerabilityGraphDiv = document.getElementById('vulnerabilityGraphDiv');
+        const detectedDataGraphDiv = document.getElementById('detectedDataGraphDiv');
+        const alertContainer = document.getElementById('alertContainer');
+        const vulnerabilityAlert = document.getElementById('vulnerabilityAlert');
+        const vulnerabilityTraces = {};
+        const detectedDataTraces = {};
 
-        // Get the graph container element
-        const graphDiv = document.getElementById('graphDiv');
-
-        // Create an empty dictionary to store traces for each location
-        const traces = {};
-
-        // Load data from the server and populate the dropdown
         fetch('/get_data')
             .then(response => response.json())
             .then(data => {
@@ -42,41 +46,56 @@
                     option.value = location;
                     option.textContent = location;
                     locationDropdown.appendChild(option);
-                    traces[location] = [];
+                    vulnerabilityTraces[location] = [];
+                    detectedDataTraces[location] = [];
                 });
 
-                // Attach an event listener to the dropdown
                 locationDropdown.addEventListener('change', () => {
                     const selectedLocation = locationDropdown.value;
-                    updateGraph(selectedLocation);
+                    updateGraphs(selectedLocation);
                 });
 
-                // Initial graph update with the first location's data
-                updateGraph(locations[0]);
+                updateGraphs(locations[0]);
             });
 
-        // Function to update the graph based on selected location
-        function updateGraph(location) {
-            // Get data for the selected location
+        function updateGraphs(location) {
             fetch('/get_data')
                 .then(response => response.json())
                 .then(data => {
                     const filteredData = data.filter(item => item.location === location);
 
-                    // Create a new trace for the selected location
-                    const newTrace = {
+                    const vulnerabilityTrace = {
                         x: filteredData.map(item => item.time),
                         y: filteredData.map(item => item.vulnerability),
                         type: 'bar',
                         marker: {
-                            color: filteredData.map(item => item.vulnerability > 50 ? 'red' : 'green')
+                            color: filteredData.map(item => item.vulnerability > 85 ? 'red' : 'green')
                         }
                     };
 
-                    // Replace the existing trace for the location with the new trace
-                    traces[location] = [newTrace];
+                    const detectedDataTrace = {
+                        x: filteredData.map(item => item.hour),
+                        y: filteredData.map(item => item.count),
+                        type: 'bar',
+                        marker: {
+                            color: 'blue'
+                        }
+                    };
 
-                    const layout = {
+                    const maxYValue = Math.max(...filteredData.map(item => item.count));
+                    const yRangePadding = 10;
+                    const detectedDataLayout = {
+                        title: `Violence count for ${location}`,
+                        xaxis: {
+                            title: 'Time in Hour'
+                        },
+                        yaxis: {
+                            title: 'Violence intensity',
+                            tickformat:'d'
+                        }
+                    };
+
+                    const vulnerabilityLayout = {
                         title: `Vulnerability Graph for ${location}`,
                         xaxis: {
                             title: 'Time'
@@ -86,9 +105,36 @@
                         }
                     };
 
-                    Plotly.newPlot(graphDiv, traces[location], layout);
+                    vulnerabilityTraces[location] = [vulnerabilityTrace];
+                    detectedDataTraces[location] = [detectedDataTrace];
+
+                    Plotly.newPlot(vulnerabilityGraphDiv, vulnerabilityTraces[location], vulnerabilityLayout);
+                    Plotly.newPlot(detectedDataGraphDiv, detectedDataTraces[location], detectedDataLayout);
+
+                    // Check if vulnerability is above the threshold and show alert dynamically
+                    const latestVulnerability = filteredData[filteredData.length - 1].vulnerability;
+                    if (latestVulnerability > 85) {
+                        showDynamicAlert(`Alert: Vulnerability value (${latestVulnerability}) is above the threshold (85) for location: ${location}`);
+                    } else {
+                        hideDynamicAlert();
+                    }
                 });
         }
+
+        function showDynamicAlert(message) {
+            alertContainer.style.display = 'block';
+            vulnerabilityAlert.innerHTML = `<strong>${message}</strong><br><a href="https://goo.gl/maps/1GVus3qpwF2BFQEA9" target="_blank">Location Map</a>`;
+        }
+
+        function hideDynamicAlert() {
+            alertContainer.style.display = 'none';
+            vulnerabilityAlert.innerHTML = '';
+        }
+
+        setInterval(() => {
+            const selectedLocation = locationDropdown.value;
+            updateGraphs(selectedLocation);
+        }, 2000);
     </script>
 </body>
 </html>

@@ -78,6 +78,9 @@ def update_webcam_info():
     time = request.args.get('time')
     location = request.args.get('location')
     vulnerability = request.args.get('vulnerability')
+    detected_data = request.args.get('detected_data')
+    count = request.args.get('count')
+    hour = request.args.get('hour')
 
 
     # Update the webcam information or create a new entry if it doesn't exist
@@ -88,7 +91,7 @@ def update_webcam_info():
     #         webcam['location'] = location
     #         break
     # else:
-    webcams.append({"name": name, "date": date, "time": time, "location": location, "vulnerability":vulnerability})
+    webcams.append({"name": name, "date": date, "time": time, "location": location, "vulnerability":vulnerability, "detected_data":detected_data,"count":count,"hour":hour})
 
     return 'Webcam information updated successfully.'
 
@@ -107,5 +110,14 @@ def logout():
 def get_data():
     return json.dumps(webcams)
 
+@app.route('/clear_webcam_info', methods=['GET'])
+def clear_webcam_info():
+    global webcams  # Make sure to use the "global" keyword to access the global variable
+
+    # Clear the webcam information by emptying the list
+    webcams = []
+
+    return 'Webcam information cleared successfully.'
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5004, debug=True)

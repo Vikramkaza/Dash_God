@@ -35,7 +35,8 @@
                 <th>Date</th>
                 <th>Time</th>
                 <th>Location</th>
-                <th>Vulnerability</th>
+                <th>Confidence</th>
+                <th>Detected data</th>
             </tr>
         </thead>
         <tbody>
@@ -61,6 +62,7 @@
                         <td>${dataRow.time}</td>
                         <td>${dataRow.location}</td>
                         <td>${dataRow.vulnerability}</td>
+                        <td>${dataRow.detected_data}</td>
                     `;
                     tableBody.appendChild(newRow);
                 });
