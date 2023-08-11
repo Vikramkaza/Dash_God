@@ -1,7 +1,7 @@
 
 # Project Title
 
-Dashboard for Advanced CCTV analytics app/
+Dashboard for Advanced CCTV analytics app - GOD's EYE
 
 
 
